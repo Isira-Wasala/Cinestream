@@ -1,0 +1,36 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main", "UI" ]
+  pull_request:
+    branches: [ "main", "UI" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+     - uses: actions/checkout@v2
+     - name: Setup Flutter
+       uses: subosito/flutter-action@v2
+     - name: Get dependencies
+       run: flutter pub get
+     - name: clean 
+       run: flutter clean
+     - name: Upgrade dependencies
+       run: flutter upgrade
+     - name: Flutter test
+       run: flutter test
+                
+     - name: Run the application
+       run: |
+            flutter run -d web-server &
+            # Wait for some time to allow the app to launch
+            sleep 10
+            pkill -f flutter

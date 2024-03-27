@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771741804521",
+    "project_id": "cinestream-e3446",
+    "storage_bucket": "cinestream-e3446.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771741804521:android:d7d5df1ccf12e939da4d78",
+        "android_client_info": {
+          "package_name": "com.example.cinestream"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFU9WVl25dzWsZpiNYAkSYioTGi__0pJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
