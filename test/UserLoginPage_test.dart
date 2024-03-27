@@ -39,6 +39,16 @@ void main() {
     expect(find.text('Country'), findsOneWidget);
     expect(find.text('Confirm Password'), findsOneWidget);
     expect(find.text('Create Account'), findsOneWidget);
+
+    // Simulate entering text into text fields
+    await tester.enterText(find.byType(TextFormField).at(0), 'Test User');
+    await tester.enterText(find.byType(TextFormField).at(1), '25');
+    await tester.enterText(find.byType(TextFormField).at(2), 'USA');
+    await tester.enterText(find.byType(TextFormField).at(3), 'password');
+
+    // Tap on 'Create Account' button
+    await tester.tap(find.text('Create Account'));
+    await tester.pump();
   });
 
   testWidgets('UserLoginPage Forgot Password Test',
@@ -54,34 +64,5 @@ void main() {
     expect(find.text('Forgot Password?'), findsOneWidget);
     expect(find.text('Back to Login'), findsOneWidget);
     expect(find.text('Verify'), findsOneWidget);
-  });
-  testWidgets('UserLoginPage Create Account Test', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: UserLoginPage(),
-      ),
-    );
-    // Tap on 'Create New Account' button
-    await tester.tap(find.text('Create New Account'));
-    await tester.pump();
-
-    // Verify that create account widgets are displayed
-    expect(find.text('Create New Account'), findsOneWidget);
-    expect(find.text('Back to Login'), findsOneWidget);
-    expect(find.text('Your name'), findsOneWidget);
-    expect(find.text('Age'), findsOneWidget);
-    expect(find.text('Country'), findsOneWidget);
-    expect(find.text('Confirm Password'), findsOneWidget);
-    expect(find.text('Create Account'), findsOneWidget);
-
-    // Simulate entering text into text fields
-    await tester.enterText(find.byType(TextFormField).at(0), 'Test User');
-    await tester.enterText(find.byType(TextFormField).at(1), '25');
-    await tester.enterText(find.byType(TextFormField).at(2), 'USA');
-    await tester.enterText(find.byType(TextFormField).at(3), 'password');
-
-    // Tap on 'Create Account' button
-    await tester.tap(find.text('Create Account'));
-    await tester.pump();
   });
 }
