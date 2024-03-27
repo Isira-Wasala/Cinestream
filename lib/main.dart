@@ -26,7 +26,7 @@
 //       home: WelcomePage(),
 //     );
 //   }
-// }
+//}
 
 //Uncomment the below code if you are going to run the app on Android Studio
 

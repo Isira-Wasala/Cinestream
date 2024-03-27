@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:main/ContentViewer.dart';
 import 'package:main/SponsorHomePage.dart';
 import 'ProfilePage.dart';
+import 'package:main/PaymentFunction.dart';
 
 class SponsorSearchWidget extends StatefulWidget {
   const SponsorSearchWidget({super.key});
@@ -148,6 +149,7 @@ class _SearchPageState extends State<SponsorSearchWidget> {
 
   void clearSearch() {
     setState(() {
+      searchResultsCreators.clear();
       _searchController.clear();
       _isSearching = false;
       _startPriceController.clear();
@@ -202,7 +204,7 @@ class _SearchPageState extends State<SponsorSearchWidget> {
                     setState(() {
                       updateList(value);
                       if (_isSearching) {
-                        searchHistory.clear();
+                        //searchHistory.clear();
                       }
                     });
                   },
@@ -284,7 +286,7 @@ class _SearchPageState extends State<SponsorSearchWidget> {
                       ),
                     ],
                   ),
-                if (searchResults.isEmpty && _isSearching)
+                if (searchResults.isEmpty && (!_isSearching))
                   const Text(
                     'Oops, there is no any contents like that',
                     style: TextStyle(
@@ -474,9 +476,10 @@ class _MobileImageDisplayState extends State<MobileImageDisplay> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
+                                final String VPrice =
+                                fileDetails?['price'] as String;
                                 // add payment gateway logic here
-                                bool paymentSuccess =
-                                    true; // await processPayment(); // Example function for processing payment
+                                bool paymentSuccess = await processPayment(VPrice, 'sponsor'); // Example function for processing payment
 
                                 if (paymentSuccess) {
                                   // Navigate to content viewer if payment is successful
@@ -693,11 +696,13 @@ class _WebImageDisplayState extends State<WebImageDisplay> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
+                                final String VPrice =
+                                fileDetails?['price'] as String;
                                 // add payment gateway logic here
-                                bool paymentSuccess =
-                                    true; // await processPayment(); // function for processing payment
+                                bool paymentSuccess = await processPayment(VPrice, 'sponsor'); // function for processing payment
 
                                 if (paymentSuccess) {
+
                                   // Navigate to content viewer if payment is successful
                                   Navigator.of(context)
                                       .pop(); // Close the dialog

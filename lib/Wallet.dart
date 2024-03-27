@@ -13,7 +13,7 @@ class Wallet extends StatefulWidget {
   WalletState createState() => WalletState();
 
   // Getter for currentCoins
-  Future<double> get currentCoins async {
+  Future<int> get currentCoins async {
     // Fetch current coins from Firestore
     final currentUserEmail = FirebaseAuth.instance.currentUser?.email;
     if (currentUserEmail == null) {
@@ -29,14 +29,14 @@ class Wallet extends StatefulWidget {
 
     if (docSnapshot.docs.isNotEmpty) {
       final latestPayment = docSnapshot.docs.first;
-      return latestPayment['amount'] as double;
+      return latestPayment['amount'];
     } else {
       return 0;
     }
   }
 
   // Function to deduct coins
-  Future<void> deductCoins(double coinsNeeded) async {
+  Future<void> deductCoins(int coinsNeeded) async {
     try {
       // Fetch current coins
       final currentCoins = await this.currentCoins;
@@ -70,7 +70,7 @@ class Wallet extends StatefulWidget {
 }
 
 class WalletState extends State<Wallet> {
-  double currentCoins = 0; // Initial balance
+  int currentCoins = 0; // Initial balance
   List<String> transactionHistory = [];
 
   @override
@@ -97,7 +97,7 @@ class WalletState extends State<Wallet> {
 
     if (docSnapshot.docs.isNotEmpty) {
       final latestPayment = docSnapshot.docs.first;
-      final double amount = latestPayment['amount'];
+      final int amount = latestPayment['amount'];
       setState(() {
         currentCoins = amount;
       });
@@ -128,11 +128,11 @@ class WalletState extends State<Wallet> {
     // Format and add transactions to history
     querySnapshot.docs.forEach((doc) {
       final DateTime paymentTime = (doc['payment_time'] as Timestamp).toDate();
-      final double amount = doc['amount'] as double;
+      final int amount = doc['amount'];
       final String formattedTime =
           DateFormat('dd/MM/yyyy - HH:mm').format(paymentTime);
       setState(() {
-        transactionHistory.add('Time: $formattedTime, Amount: $amount');
+        transactionHistory.add('Time: $formattedTime, Amount: ${amount.toDouble()}');
       });
     });
   }
@@ -150,7 +150,7 @@ class WalletState extends State<Wallet> {
             padding: const EdgeInsets.all(20),
             color: Colors.blue,
             child: Text(
-              'Current Coins: $currentCoins',
+              'Current Coins: ${currentCoins.toDouble()}',
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -198,7 +198,7 @@ class WalletState extends State<Wallet> {
     );
   }
 
-  Widget buildBuyCoinsOption(double coins, Color color) {
+  Widget buildBuyCoinsOption(int coins, Color color) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -227,7 +227,7 @@ class WalletState extends State<Wallet> {
 }
 
 class CheckoutPage extends StatefulWidget {
-  final double coinsToAdd;
+  final int coinsToAdd;
   final String type;
 
   const CheckoutPage({Key? key, required this.coinsToAdd, required this.type})
@@ -238,7 +238,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  late double coinsToAdd; // Track the number of coins to add
+  late int coinsToAdd; // Track the number of coins to add
   final FirebaseService _firebaseService = FirebaseService();
   @override
   void initState() {
@@ -272,14 +272,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  Future<void> initiatePayment(double coinsToAdd) async {
+  Future<void> initiatePayment(int coinsToAdd) async {
     // Assuming you have the user's email
     final currentUserEmail = FirebaseAuth.instance.currentUser?.email;
     if (currentUserEmail == null) {
       return;
     }
 
-    double amount;
+    int amount;
     if (coinsToAdd == 10) {
       amount = 2426;
     } else if (coinsToAdd == 50) {
@@ -290,7 +290,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       amount = 36384;
     } else {
       // Handle any other coin amount
-      amount = coinsToAdd * 1.0;
+      amount = coinsToAdd * 1;
     }
 
     // Add payment information to Firebase
@@ -324,7 +324,7 @@ class FirebaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('Payments');
 
-  Future<void> addPayment(String type, String userEmail, double amount) async {
+  Future<void> addPayment(String type, String userEmail, int amount) async {
     try {
       // Get the user document reference
       final userDocRef = usersCollection.doc(type);
@@ -344,7 +344,7 @@ class FirebaseService {
 
         if (docSnapshot.docs.isNotEmpty) {
           final latestPayment = docSnapshot.docs.first;
-          final double Pamount = latestPayment['amount'];
+          final int Pamount = latestPayment['amount'];
           await userDocRef
               .collection('wallet')
               .doc(walletDocs.docs.last.id)

@@ -78,7 +78,7 @@ class CreatorSettingsPageState extends State<CreatorSettingsPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Settings'),
-          automaticallyImplyLeading: false, // This line hides the back button
+          //automaticallyImplyLeading: false, // This line hides the back button
         ),
         body: WillPopScope(
           onWillPop: () async {

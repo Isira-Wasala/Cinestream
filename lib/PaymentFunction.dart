@@ -1,16 +1,17 @@
 import 'package:main/Wallet.dart';
 
-Future<bool> processPayment(String Price) async {
-  double price = double.parse(Price);
+Future<bool> processPayment(String Price, String Type) async {
+  int price = int.parse(Price);
+  String type = Type;
 
   // Calculate the number of coins needed based on the price
-  double coinsNeeded = price; // 1 coin = Rs.1
+  int coinsNeeded = price; // 1 coin = Rs.1
 
   // Get the current state of the wallet
-  Wallet walletState = const Wallet(type: 'user');
-  Future<double> currentCoins = walletState.currentCoins;
+  Wallet walletState = Wallet(type: type);
+  Future<int> currentCoins = walletState.currentCoins;
   // Check if the user has enough coins in the wallet
-  double currentCoinsValue = await currentCoins;
+  int currentCoinsValue = await currentCoins;
   if (currentCoinsValue >= coinsNeeded) {
     // Deduct the coins from the wallet balance
     walletState.deductCoins(coinsNeeded);

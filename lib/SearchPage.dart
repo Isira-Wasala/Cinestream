@@ -151,6 +151,7 @@ class _SearchPageState extends State<CreatorSearchWidget> {
 
   void clearSearch() {
     setState(() {
+      searchResultsCreators.clear();
       _searchController.clear();
       _isSearching = false;
       _startPriceController.clear();
@@ -205,7 +206,7 @@ class _SearchPageState extends State<CreatorSearchWidget> {
                     setState(() {
                       updateList(value);
                       if (_isSearching) {
-                        searchHistory.clear();
+                        //searchHistory.clear();
                       }
                     });
                   },
@@ -287,7 +288,7 @@ class _SearchPageState extends State<CreatorSearchWidget> {
                       ),
                     ],
                   ),
-                if (searchResults.isEmpty && _isSearching)
+                if (searchResults.isEmpty && (!_isSearching))
                   const Text(
                     'Oops, there is no any contents like that',
                     style: TextStyle(
@@ -481,7 +482,8 @@ class _MobileImageDisplayState extends State<MobileImageDisplay> {
                                 final String VPrice =
                                     fileDetails?['price'] as String;
                                 bool paymentSuccess = await processPayment(
-                                    VPrice); // Example function for processing payment
+                                    VPrice,
+                                    "user"); // Example function for processing payment
 
                                 if (paymentSuccess) {
                                   // Navigate to content viewer if payment is successful
@@ -705,7 +707,8 @@ class _WebImageDisplayState extends State<WebImageDisplay> {
                                 final String VPrice =
                                     fileDetails?['price'] as String;
                                 bool paymentSuccess = await processPayment(
-                                    VPrice); // function for processing payment
+                                    VPrice,
+                                    "user");// function for processing payment
 
                                 if (paymentSuccess) {
                                   // Navigate to content viewer if payment is successful

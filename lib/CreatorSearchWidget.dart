@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:main/ContentViewer.dart';
 import 'package:main/MyHomePage.dart';
 
+import 'PaymentFunction.dart';
+
 class SearchWidget extends StatefulWidget {
   const SearchWidget({super.key});
 
@@ -421,9 +423,10 @@ class _MobileImageDisplayState extends State<MobileImageDisplay> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
+                                final String VPrice =
+                                fileDetails?['price'] as String;
                                 // add payment gateway logic here
-                                bool paymentSuccess =
-                                    true; // await processPayment(); // Example function for processing payment
+                                bool paymentSuccess = await processPayment(VPrice, 'creator'); // Example function for processing payment
 
                                 if (paymentSuccess) {
                                   // Navigate to content viewer if payment is successful
@@ -681,9 +684,10 @@ class _WebImageDisplayState extends State<WebImageDisplay> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
+                                final String VPrice =
+                                fileDetails?['price'] as String;
                                 // add payment gateway logic here
-                                bool paymentSuccess =
-                                    true; // await processPayment(); // function for processing payment
+                                bool paymentSuccess = await processPayment(VPrice, 'creator'); // function for processing payment
 
                                 if (paymentSuccess) {
                                   // Navigate to content viewer if payment is successful

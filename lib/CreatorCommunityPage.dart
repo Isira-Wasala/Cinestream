@@ -122,7 +122,8 @@ class _CreatorCommunityPageState extends State<CreatorCommunityPage> {
                         createChannel(context);
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 82, 204, 71), // Text color
+                        backgroundColor: const Color.fromARGB(255, 82, 204, 71), // Background color
+                        primary: Colors.white, // Text color
                       ),
                       child: Text('Create'),
                     ),

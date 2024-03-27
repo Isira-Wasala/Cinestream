@@ -109,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: _selectedIndex != 3
+      ?BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -133,7 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedItemColor: Colors.black,
         unselectedLabelStyle: const TextStyle(color: Colors.black),
         onTap: _onItemTapped,
-      ),
+      )
+      :null,
     );
   }
 }

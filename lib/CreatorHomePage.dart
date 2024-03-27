@@ -98,7 +98,8 @@ class _CreatorHomePageState extends State<CreatorHomePage> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: _selectedIndex != 5
+      ?BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -130,7 +131,8 @@ class _CreatorHomePageState extends State<CreatorHomePage> {
         unselectedItemColor: Colors.black,
         unselectedLabelStyle: const TextStyle(color: Colors.black),
         onTap: _onItemTapped,
-      ),
+      )
+      :null,
     );
   }
 }

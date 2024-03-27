@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/ContentViewer.dart';
 import 'package:main/FrontEnd/DialogViews/ShowErrorDialog.dart';
@@ -200,7 +201,8 @@ class _ProfilePageState extends State<ProfilePage> {
     // Extract video details
     String videoTitle = content['title'];
     String videoDescription = content['description'];
-    double videoPrice = content['price'];
+    String vPrice = content['price'];
+    int videoPrice = int.parse(vPrice);
 
     // Display price and description
     showDialog(
@@ -216,15 +218,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 'Description: $videoDescription',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('Price: \$${videoPrice.toStringAsFixed(2)}'),
+              Text('Price: Rs.${videoPrice.toStringAsFixed(2)}'),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
+                String Email = FirebaseAuth.instance.currentUser!.email!;
+                // check if user is user or creator
+                String? collectionName = await checkEmailInCollections(Email);
+                // Call the processPayment function
                 // Call the processPayment function
                 bool paymentSuccessful =
-                    await processPayment(videoPrice as String);
+                    await processPayment(videoPrice.toString(), collectionName??'');
                 if (paymentSuccessful) {
                   // Navigate to content viewer page if payment is successful
                   Navigator.push(
@@ -242,7 +248,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 }
               },
-              child: const Text('Buy'),
+              child: Text('Price: Rs.${videoPrice.toDouble()}'),
             ),
           ],
         );
@@ -254,9 +260,10 @@ class _ProfilePageState extends State<ProfilePage> {
     // Extract live event details
     String liveEventTitle = content['title'];
     String liveEventDescription = content['description'];
-    String liveEventPrice =
+    String lEPrice =
         content['price']; // Retrieving the price of the live event
     String liveEventId = content['liveID'];
+    int liveEventPrice = int.parse(lEPrice);
 
     // Display price and description
     showDialog(
@@ -272,15 +279,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 'Description: $liveEventDescription',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('Price: Rs.$liveEventPrice'),
+              Text('Price: Rs.${liveEventPrice.toDouble()}'),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () async {
+                String Email = FirebaseAuth.instance.currentUser!.email!;
+                // check if user is user or creator
+                String? collectionName = await checkEmailInCollections(Email);
+                // Call the processPayment function
                 // Call the processPayment function
 
-                bool paymentSuccessful = await processPayment(liveEventPrice);
+                bool paymentSuccessful = await processPayment(liveEventPrice.toString(),collectionName??'');
 
                 if (paymentSuccessful) {
                   // Navigate to JoinLivePage if payment is successful
@@ -301,7 +312,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               },
               // Modified button label to include the price
-              child: Text('Buy for Rs.$liveEventPrice'),
+              child: Text('Buy for Rs.${liveEventPrice.toDouble()}'),
             ),
           ],
         );
@@ -401,5 +412,24 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Future<String?> checkEmailInCollections(String email) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    List<String> collections = ['User', 'Creator', 'Sponsor'];
+
+    for (String collectionName in collections) {
+      CollectionReference collection = firestore.collection(collectionName);
+
+      QuerySnapshot querySnapshot =
+      await collection.where('email', isEqualTo: email).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return collectionName.toLowerCase();
+      }
+    }
+    // If email not found in any collection
+    return null;
   }
 }
