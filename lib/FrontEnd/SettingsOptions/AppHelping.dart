@@ -57,7 +57,8 @@ class HelpCenterPageStage extends State<HelpCenterPage> {
             ElevatedButton(
               onPressed: _sendEmail,
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
+                foregroundColor: Colors.white,
+                backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
               ),
               child: const Text('Send Email'),
             ),

@@ -128,9 +128,6 @@ class ChatScreenState extends State<ChatbotScreen> {
       "where can i find information about live programs or performances?",
       "are there any live experiences or events happening locally?",
       "what live events or programs do you have on offer?",
-      "live event",
-      "live events",
-      "events",
     ];
 
     return liveEventQueries.contains(message.toLowerCase());

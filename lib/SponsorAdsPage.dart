@@ -60,7 +60,7 @@ class _NewPageState extends State<NewPage> {
       } else {
         // For mobile platforms, upload the file directly
         UploadTask task = adsRef.putFile(
-          File(file.path ?? ''),
+          File(file.path!),
         );
         await task;
       }
@@ -111,7 +111,7 @@ class _NewPageState extends State<NewPage> {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: uploadedFile != null && uploadedFile!.bytes != null
+                child: uploadedFile != null
                     ? Image.memory(uploadedFile!.bytes!, fit: BoxFit.cover)
                     : Center(
                         child: IconButton(
@@ -129,7 +129,7 @@ class _NewPageState extends State<NewPage> {
                               ],
                             );
 
-                            if (result != null && result.files.isNotEmpty) {
+                            if (result != null) {
                               PlatformFile? file = result.files.first;
                               setState(() {
                                 uploadedFile = file;
@@ -626,9 +626,9 @@ class AdDetailsPopup extends StatelessWidget {
                                       Navigator.of(context).pop();
                                     },
                                     style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color.fromARGB(
-                                          255, 82, 204, 71), // Background color
-                                      primary: Colors.white, // Text color
+                                          255, 82, 204, 71), // Text color
                                     ),
                                     child: const Text('Close'),
                                   ),
@@ -648,9 +648,9 @@ class AdDetailsPopup extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(
-                      255, 82, 204, 71), // Background color
-                  onPrimary: Colors.white, // Text color
+                  foregroundColor: Colors.white,
+                  backgroundColor:
+                      const Color.fromARGB(255, 82, 204, 71), // Text color
                 ),
                 child: const Text('Interested Creators'),
               ),
@@ -667,7 +667,7 @@ class AdDetailsPopup extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 style: TextButton.styleFrom(
-                  primary: Colors.white, // Text color
+                  foregroundColor: Colors.white, // Text color
                 ),
                 child: const Text('Close'),
               ),

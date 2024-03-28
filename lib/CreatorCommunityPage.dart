@@ -122,7 +122,9 @@ class _CreatorCommunityPageState extends State<CreatorCommunityPage> {
                         createChannel(context);
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 82, 204, 71), // Text color
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(
+                            255, 82, 204, 71), // Text color
                       ),
                       child: Text('Create'),
                     ),
@@ -642,11 +644,14 @@ class _ChannelDetailPageState extends State<ChannelDetailPage> {
                       SizedBox(height: 16.0),
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 82, 204, 71), // Background color
-                          borderRadius: BorderRadius.circular(8), // Optional: Add border radius for rounded corners
+                          color: Color.fromARGB(
+                              255, 82, 204, 71), // Background color
+                          borderRadius: BorderRadius.circular(
+                              8), // Optional: Add border radius for rounded corners
                         ),
                         child: ListTile(
-                          leading: Icon(Icons.delete, color: Colors.white), // Icon color
+                          leading: Icon(Icons.delete,
+                              color: Colors.white), // Icon color
                           title: Text(
                             'Delete Channel',
                             style: TextStyle(color: Colors.white), // Text color
