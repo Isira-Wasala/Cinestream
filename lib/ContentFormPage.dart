@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:file_picker/file_picker.dart';
 
+
 class ContentFormPage extends StatefulWidget {
   const ContentFormPage({Key? key});
 
@@ -41,7 +42,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.media,
     );
-    if (result == null) return;
+    if (result == null || result.files.isEmpty) return;
     setState(() {
       pickedFile = result.files.first;
     });
@@ -68,11 +69,34 @@ class _ContentFormPageState extends State<ContentFormPage> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
     );
-    if (result == null) return;
+    if (result == null || result.files.isEmpty) return;
     setState(() {
       thumbnailFile = result.files.first;
     });
+
+    if (thumbnailFile!.extension == 'jpg' || thumbnailFile!.extension == 'png') {
+      if (kIsWeb) {
+        final path = "thumbnails/${thumbnailFile!.name}";
+        final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
+        uploadTask = ref.putData(thumbnailFile!.bytes!);
+        final snapshot = await uploadTask!.whenComplete(() {});
+        final urlDownload = await snapshot.ref.getDownloadURL();
+
+        // Display the image preview using Image.network
+        setState(() {
+          Image.network(urlDownload);
+        });
+      } else {
+        // For non-web platforms, display the image preview using Image.file
+        final imageFile = File(thumbnailFile!.path!);
+        setState(() {
+         Image.file(imageFile);
+        });
+      }
+    }
   }
+
+
 
   Future uploadFile() async {
     if (pickedFile == null ||
@@ -138,12 +162,12 @@ class _ContentFormPageState extends State<ContentFormPage> {
     final thumbnailPath =
         "$videoFolderPath/${_titleController.text}.${thumbnailFile!.extension}";
     final thumbnailRef =
-        firebase_storage.FirebaseStorage.instance.ref().child(thumbnailPath);
+    firebase_storage.FirebaseStorage.instance.ref().child(thumbnailPath);
     if (kIsWeb) {
       uploadTask = thumbnailRef.putData(thumbnailFile!.bytes!);
     } else {
-      final thumbnailData = await thumbnailFile!.bytes;
-      uploadTask = thumbnailRef.putData(thumbnailData!);
+      final thumbnailData = await File(thumbnailFile!.path!).readAsBytes();
+      uploadTask = thumbnailRef.putData(thumbnailData);
     }
 
     final snapshotI = await uploadTask!.whenComplete(() {
@@ -154,13 +178,13 @@ class _ContentFormPageState extends State<ContentFormPage> {
     // Save field details as a text file
     final fieldDetailsPath = "$videoFolderPath/${_titleController.text}.txt";
     final fieldDetailsRef =
-        firebase_storage.FirebaseStorage.instance.ref().child(fieldDetailsPath);
+    firebase_storage.FirebaseStorage.instance.ref().child(fieldDetailsPath);
     final fieldDetailsContent = "Title: ${_titleController.text}\n"
         "Description: ${_descriptionController.text}\n"
         "Category: $_selectedCategory\n"
         "Price: ${_priceController.text}";
     final fieldDetailsUploadTask =
-        fieldDetailsRef.putString(fieldDetailsContent);
+    fieldDetailsRef.putString(fieldDetailsContent);
     await fieldDetailsUploadTask.whenComplete(() {
       print("Field details saved.");
     });

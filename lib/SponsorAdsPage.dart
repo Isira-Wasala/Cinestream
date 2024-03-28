@@ -60,7 +60,7 @@ class _NewPageState extends State<NewPage> {
       } else {
         // For mobile platforms, upload the file directly
         UploadTask task = adsRef.putFile(
-          File(file.path!),
+          File(file.path ?? ''),
         );
         await task;
       }
@@ -111,7 +111,7 @@ class _NewPageState extends State<NewPage> {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: uploadedFile != null
+                child: uploadedFile != null && uploadedFile!.bytes != null
                     ? Image.memory(uploadedFile!.bytes!, fit: BoxFit.cover)
                     : Center(
                         child: IconButton(
@@ -129,7 +129,7 @@ class _NewPageState extends State<NewPage> {
                               ],
                             );
 
-                            if (result != null) {
+                            if (result != null && result.files.isNotEmpty) {
                               PlatformFile? file = result.files.first;
                               setState(() {
                                 uploadedFile = file;
