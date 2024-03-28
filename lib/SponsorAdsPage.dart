@@ -626,9 +626,8 @@ class AdDetailsPopup extends StatelessWidget {
                                       Navigator.of(context).pop();
                                     },
                                     style: TextButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(
-                                          255, 82, 204, 71), // Background color
-                                      primary: Colors.white, // Text color
+                                      foregroundColor: Colors.white, backgroundColor: Color.fromARGB(
+                                          255, 82, 204, 71), // Text color
                                     ),
                                     child: const Text('Close'),
                                   ),
@@ -648,9 +647,8 @@ class AdDetailsPopup extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(
-                      255, 82, 204, 71), // Background color
-                  onPrimary: Colors.white, // Text color
+                  foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(
+                      255, 82, 204, 71), // Text color
                 ),
                 child: const Text('Interested Creators'),
               ),
@@ -667,7 +665,7 @@ class AdDetailsPopup extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 style: TextButton.styleFrom(
-                  primary: Colors.white, // Text color
+                  foregroundColor: Colors.white, // Text color
                 ),
                 child: const Text('Close'),
               ),
