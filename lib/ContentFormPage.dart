@@ -319,8 +319,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
                           ElevatedButton(
                             onPressed: selectFile,
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 82, 204, 71), // Background color
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
                             ),
                             child: const Text('Select Video'),
                           ),
@@ -328,8 +327,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
                           ElevatedButton(
                             onPressed: selectThumbnail,
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 82, 204, 71), // Background color
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
                             ),
                             child: const Text('Select Thumbnail'),
                           ),
@@ -412,8 +410,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
                       ElevatedButton(
                         onPressed: uploadFile,
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 82, 204, 71), // Background color
-                          onPrimary: Colors.white, // Text color
+                          foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
                         ),
                         child: const Text('Submit'),
                       ),
