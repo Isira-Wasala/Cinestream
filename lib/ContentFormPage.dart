@@ -41,7 +41,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.media,
     );
-    if (result == null || result.files.isEmpty) return;
+    if (result == null) return;
     setState(() {
       pickedFile = result.files.first;
     });
@@ -68,32 +68,10 @@ class _ContentFormPageState extends State<ContentFormPage> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
     );
-    if (result == null || result.files.isEmpty) return;
+    if (result == null) return;
     setState(() {
       thumbnailFile = result.files.first;
     });
-
-    if (thumbnailFile!.extension == 'jpg' ||
-        thumbnailFile!.extension == 'png') {
-      if (kIsWeb) {
-        final path = "thumbnails/${thumbnailFile!.name}";
-        final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
-        uploadTask = ref.putData(thumbnailFile!.bytes!);
-        final snapshot = await uploadTask!.whenComplete(() {});
-        final urlDownload = await snapshot.ref.getDownloadURL();
-
-        // Display the image preview using Image.network
-        setState(() {
-          Image.network(urlDownload);
-        });
-      } else {
-        // For non-web platforms, display the image preview using Image.file
-        final imageFile = File(thumbnailFile!.path!);
-        setState(() {
-          Image.file(imageFile);
-        });
-      }
-    }
   }
 
   Future uploadFile() async {
@@ -164,8 +142,8 @@ class _ContentFormPageState extends State<ContentFormPage> {
     if (kIsWeb) {
       uploadTask = thumbnailRef.putData(thumbnailFile!.bytes!);
     } else {
-      final thumbnailData = await File(thumbnailFile!.path!).readAsBytes();
-      uploadTask = thumbnailRef.putData(thumbnailData);
+      final thumbnailData = await thumbnailFile!.bytes;
+      uploadTask = thumbnailRef.putData(thumbnailData!);
     }
 
     final snapshotI = await uploadTask!.whenComplete(() {
