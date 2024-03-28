@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:file_picker/file_picker.dart';
 
-
 class ContentFormPage extends StatefulWidget {
   const ContentFormPage({Key? key});
 
@@ -74,7 +73,8 @@ class _ContentFormPageState extends State<ContentFormPage> {
       thumbnailFile = result.files.first;
     });
 
-    if (thumbnailFile!.extension == 'jpg' || thumbnailFile!.extension == 'png') {
+    if (thumbnailFile!.extension == 'jpg' ||
+        thumbnailFile!.extension == 'png') {
       if (kIsWeb) {
         final path = "thumbnails/${thumbnailFile!.name}";
         final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
@@ -90,13 +90,11 @@ class _ContentFormPageState extends State<ContentFormPage> {
         // For non-web platforms, display the image preview using Image.file
         final imageFile = File(thumbnailFile!.path!);
         setState(() {
-         Image.file(imageFile);
+          Image.file(imageFile);
         });
       }
     }
   }
-
-
 
   Future uploadFile() async {
     if (pickedFile == null ||
@@ -162,7 +160,7 @@ class _ContentFormPageState extends State<ContentFormPage> {
     final thumbnailPath =
         "$videoFolderPath/${_titleController.text}.${thumbnailFile!.extension}";
     final thumbnailRef =
-    firebase_storage.FirebaseStorage.instance.ref().child(thumbnailPath);
+        firebase_storage.FirebaseStorage.instance.ref().child(thumbnailPath);
     if (kIsWeb) {
       uploadTask = thumbnailRef.putData(thumbnailFile!.bytes!);
     } else {
@@ -178,13 +176,13 @@ class _ContentFormPageState extends State<ContentFormPage> {
     // Save field details as a text file
     final fieldDetailsPath = "$videoFolderPath/${_titleController.text}.txt";
     final fieldDetailsRef =
-    firebase_storage.FirebaseStorage.instance.ref().child(fieldDetailsPath);
+        firebase_storage.FirebaseStorage.instance.ref().child(fieldDetailsPath);
     final fieldDetailsContent = "Title: ${_titleController.text}\n"
         "Description: ${_descriptionController.text}\n"
         "Category: $_selectedCategory\n"
         "Price: ${_priceController.text}";
     final fieldDetailsUploadTask =
-    fieldDetailsRef.putString(fieldDetailsContent);
+        fieldDetailsRef.putString(fieldDetailsContent);
     await fieldDetailsUploadTask.whenComplete(() {
       print("Field details saved.");
     });
@@ -319,7 +317,9 @@ class _ContentFormPageState extends State<ContentFormPage> {
                           ElevatedButton(
                             onPressed: selectFile,
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
+                              primary: Color.fromARGB(
+                                  255, 82, 204, 71), // Background color
+                              onPrimary: Colors.white, // Text color
                             ),
                             child: const Text('Select Video'),
                           ),
@@ -327,7 +327,9 @@ class _ContentFormPageState extends State<ContentFormPage> {
                           ElevatedButton(
                             onPressed: selectThumbnail,
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
+                              primary: Color.fromARGB(
+                                  255, 82, 204, 71), // Background color
+                              onPrimary: Colors.white, // Text color
                             ),
                             child: const Text('Select Thumbnail'),
                           ),
@@ -410,7 +412,9 @@ class _ContentFormPageState extends State<ContentFormPage> {
                       ElevatedButton(
                         onPressed: uploadFile,
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 82, 204, 71), // Text color
+                          primary: Color.fromARGB(
+                              255, 82, 204, 71), // Background color
+                          onPrimary: Colors.white, // Text color
                         ),
                         child: const Text('Submit'),
                       ),
